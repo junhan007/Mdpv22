@@ -24,10 +24,10 @@ public class RobotConstants {
     //public static final DIRECTION START_DIR = DIRECTION.EAST;
     
     public static final int SHORT_SENSOR_MIN = 1;
-    public static final int SHORT_SENSOR_MAX = 1;
+    public static final int SHORT_SENSOR_MAX = 2;
     
     public static final int LONG_SENSOR_MIN = 1;
-    public static final int LONG_SENSOR_MAX = 1;
+    public static final int LONG_SENSOR_MAX = 4;
     
     public static final int INFINITE_COST = 9999;
     

@@ -60,9 +60,19 @@ public class mdpMain {
         
         if(robot.getIsRealRobot()){
             while (true) {
-                System.out.println("Waiting for android command...");
+                System.out.println("Waiting for android command to start exploration...");
                 String msg = CommMgr.getCommMgr().recvMsg();
                 if (msg.equals(CommMgr.EX_START)){
+                    m_control.initExploration();
+                }
+            }
+        }
+        
+        if(robot.getIsRealRobot()){
+            while (true) {
+                System.out.println("Waiting for android command to start fastest path...");
+                String msg = CommMgr.getCommMgr().recvMsg();
+                if (msg.equals(CommMgr.FP_START)){
                     m_control.initExploration();
                 }
             }
@@ -112,15 +122,15 @@ public class mdpMain {
         }
         mapFrame = new MapFrame(mapPanel);
         //m_control = new MapController(mapFrame.getMapPanel(), mapFrame.getControlPanel(), robot);
-        m_control = new MapController(mapFrame, robot);
+        m_control = new MapController(mapFrame, robot, realMap, exploredMap);
         
     }
     
     
-    public void startExploration(MapPanel mapPanel){
-        mapPanel.setMap(exploredMap);
-        ExplorationAlgo ex = new ExplorationAlgo(mapFrame, realMap, robot, robot.getCoverage(), robot.getTimeLimit());
-        ex.runExploration();
-    }
+//    public void startExploration(MapPanel mapPanel){
+//        mapPanel.setMap(exploredMap);
+//        ExplorationAlgo ex = new ExplorationAlgo(mapFrame, realMap, robot, robot.getCoverage(), robot.getTimeLimit());
+//        ex.runExploration();
+//    }
         
 }

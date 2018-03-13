@@ -45,7 +45,7 @@ public class ExplorationAlgo {
     private MOVEMENT prevMove;
     private final MapFrame mapFrame;
     private int calCount = 0;
-    private Boolean justCalibrated = false;
+    //private Boolean justCalibrated = false;
     
     public ExplorationAlgo(MapFrame mapFrame, Map realMap, Robot robot, int coverageLimit, int timeLimit){
         this.mapFrame = mapFrame;
@@ -99,26 +99,26 @@ public class ExplorationAlgo {
         // Sense
         senseAndRepaint();
 
-        if (!justCalibrated){
+//        if (!justCalibrated){
             if (robot.getIsRealRobot()){
                 if (canCalibrateOnCorner(robot.getRobotDir())){
                     System.out.println("Can calibrate on the corner");
                     moveBot(MOVEMENT.CAL_COR);
                     //if(comm.recvMsg().equals("Y")){
                     calCount = 0;
-                    justCalibrated = true;
+                    //justCalibrated = true;
                     moveBot(MOVEMENT.LEFT);
                 } else if (canCalibrateUsingSide(robot.getRobotDir()) && calCount >= 3){
                     System.out.println("Can reposition using side");
                     moveBot(MOVEMENT.CAL_SIDE);
                     calCount = 0;
-                    justCalibrated = true;
+                    //justCalibrated = true;
                 }
                 else{
                     calCount++;
                 }
             }
-        }
+ //       }
 
         areaExplored = calculateAreaExplored();
         System.out.println("Area explored: " + areaExplored);
@@ -139,7 +139,7 @@ public class ExplorationAlgo {
         if (robot.getRobotPosRow() == MapConstants.START_ROW && robot.getRobotPosCol() == MapConstants.START_COL) {
             if (areaExplored >= 100) {
                 System.out.println("Went back to start pos");
-                goHome();
+                //goHome();
                 return;
             }
         }
@@ -284,11 +284,14 @@ public class ExplorationAlgo {
      * Returns the robot to START after exploration and points the bot northwards.
      */
     private void goHome() {
+        System.out.println("in goHome()");
         if (!robot.getTouchedGoal() && coverageLimit == 300 && timeLimit == 3600) {
+            System.out.println("1");
             FastestPathAlgo goToGoal = new FastestPathAlgo(robot, mapFrame);
             goToGoal.runFastestPath(MapConstants.GOAL_ROW, MapConstants.GOAL_COL);
         }
         if(!(robot.getRobotPosRow() == RobotConstants.DEFAULT_START_ROW && robot.getRobotPosCol() == RobotConstants.DEFAULT_START_COL)){
+            System.out.println("2");
             FastestPathAlgo returnToStart = new FastestPathAlgo(robot, mapFrame);
             returnToStart.runFastestPath(MapConstants.START_ROW, MapConstants.START_COL);
         }

@@ -40,10 +40,15 @@ public class MapController implements MouseListener, ActionListener {
     ExploreController r_control;
     FastestPathAlgo fpath_control;
     private JFileChooser fc;
+    
+    Map realMap;
+    Map exploredMap;
 
-    public MapController(MapFrame mapFrame, Robot m_robot) {
+    public MapController(MapFrame mapFrame, Robot m_robot, Map realMap, Map exploredMap) {
         this.mapFrame = mapFrame;
         this.mapPanel = mapFrame.getMapPanel();
+        this.realMap = realMap;
+        this.exploredMap = exploredMap;
         this.mapPanel.addMouseListener(this);
         this.cpanel = mapFrame.getControlPanel();
         this.m_robot = m_robot;
@@ -223,10 +228,15 @@ public class MapController implements MouseListener, ActionListener {
         m_robot.setSpeed(cpanel.getSpeedPanel().getSettings());
         m_robot.setTimeLimit(cpanel.getTimePanel().getSettings());
         m_robot.setCoverage(cpanel.getCoveragePanel().getSettings());
-        mdpMain m = new mdpMain();
-        m.startExploration(mapPanel);
+//        mdpMain m = new mdpMain();
+//        m.startExploration(mapPanel);
+        
+        mapPanel.setMap(exploredMap);
+        ExplorationAlgo ex = new ExplorationAlgo(mapFrame, realMap, m_robot, m_robot.getCoverage(), m_robot.getTimeLimit());
+        ex.runExploration();
     }
-
+    
+  
     /*
     public void SetStartPoint(){
         for (int y = 17 ; y < MAP_ROWS; y++){

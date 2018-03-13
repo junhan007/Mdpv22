@@ -143,13 +143,13 @@ public class Sensor {
             }
 
             // Override previous obstacle value if front sensors detect no obstacle.
-            if (exploredMap.getGrid(row, col).getIsObstacle()) {
-                if (id.equals("SRF1") || id.equals("SRF2") || id.equals("SRF3")) {
-                    exploredMap.setObstacleCell(row, col, false);
-                } else {
-                    break;
-                }
-            }
+//            if (exploredMap.getGrid(row, col).getIsObstacle()) {
+//                if (id.equals("SRF1") || id.equals("SRF2") || id.equals("SRF3")) {
+//                    exploredMap.setObstacleCell(row, col, false);
+//                } else {
+//                    break;
+//                }
+//            }
         }
     }
 }
