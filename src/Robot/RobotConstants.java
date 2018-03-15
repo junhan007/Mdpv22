@@ -24,7 +24,7 @@ public class RobotConstants {
     //public static final DIRECTION START_DIR = DIRECTION.EAST;
     
     public static final int SHORT_SENSOR_MIN = 1;
-    public static final int SHORT_SENSOR_MAX = 2;
+    public static final int SHORT_SENSOR_MAX = 1;
     
     public static final int LONG_SENSOR_MIN = 1;
     public static final int LONG_SENSOR_MAX = 4;
@@ -59,7 +59,7 @@ public class RobotConstants {
     }
         
     public enum MOVEMENT {
-        FORWARD, BACKWARD, RIGHT, LEFT, CAL_COR, CAL_SIDE , ERROR;
+        FORWARD, BACKWARD, RIGHT, LEFT, CAL_COR, CAL_SIDE , FORWARD_THREE, FORWARD_FIVE, ERROR;
 
         public static char print(MOVEMENT m) {
             switch (m) {
@@ -75,6 +75,10 @@ public class RobotConstants {
                     return 'g';
                 case CAL_SIDE:
                     return 'h';
+                case FORWARD_THREE:
+                    return 'W';
+                case FORWARD_FIVE:
+                    return 'q';
                 case ERROR:
                 default:
                     return 'e';

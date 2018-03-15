@@ -258,8 +258,9 @@ public class MapController implements MouseListener, ActionListener {
                         pathToGoal.pop();
                         pathToGoal.addAll(pathToWaypoint);
                         fpath_control.printFastestPath(pathToGoal);
-                        fpath_control.QueuetoString(fpath_control.executeString(m_robot, pathToGoal));
-                        fpath_control.executePath(m_robot, pathToGoal);
+                        String command = fpath_control.QueuetoString(fpath_control.executeString(m_robot, pathToGoal));
+                        //fpath_control.executePath(m_robot, pathToGoal);
+                        fpath_control.executePath(command);
 
                     }
                 }

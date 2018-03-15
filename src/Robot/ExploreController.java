@@ -9,6 +9,7 @@ import Map.ControlPanel;
 import Map.Map;
 import Map.MapFrame;
 import Map.MapPanel;
+import Robot.RobotConstants.MOVEMENT;
 import Utils.CommMgr;
 import Utils.MapDescriptor;
 import java.util.concurrent.TimeUnit;
@@ -119,6 +120,72 @@ public class ExploreController {
             robot.updateTouchedGoal();
         }
     }
+    
+    public void updateFp(MOVEMENT m){
+        System.out.println("Updating UI move: " + RobotConstants.MOVEMENT.print(m));
+
+        switch (m) {
+            case FORWARD:
+                switch (robot.getRobotDir()) {
+                    case NORTH:
+                        robot.setRobotPosRow(robot.getRobotPosRow() - 1);
+                        break;
+                    case EAST:
+                        robot.setRobotPosCol(robot.getRobotPosCol() + 1);
+                        break;
+                    case SOUTH:
+                        robot.setRobotPosRow(robot.getRobotPosRow() + 1);
+                        break;
+                    case WEST:
+                        robot.setRobotPosCol(robot.getRobotPosCol() - 1);
+                        break;
+                }
+                break;
+            case FORWARD_THREE:
+                switch (robot.getRobotDir()) {
+                    case NORTH:
+                        robot.setRobotPosRow(robot.getRobotPosRow() - 3);
+                        break;
+                    case EAST:
+                        robot.setRobotPosCol(robot.getRobotPosCol() + 3);
+                        break;
+                    case SOUTH:
+                        robot.setRobotPosRow(robot.getRobotPosRow() + 3);
+                        break;
+                    case WEST:
+                        robot.setRobotPosCol(robot.getRobotPosCol() - 3);
+                        break;
+                }
+                break;
+            case FORWARD_FIVE:
+                switch (robot.getRobotDir()) {
+                    case NORTH:
+                        robot.setRobotPosRow(robot.getRobotPosRow() - 5);
+                        break;
+                    case EAST:
+                        robot.setRobotPosCol(robot.getRobotPosCol() + 5);
+                        break;
+                    case SOUTH:
+                        robot.setRobotPosRow(robot.getRobotPosRow() + 5);
+                        break;
+                    case WEST:
+                        robot.setRobotPosCol(robot.getRobotPosCol() - 5);
+                        break;
+                }
+                break;
+            case RIGHT:
+            case LEFT:
+                robot.setRobotDir(findNewDirection(m));
+                break;
+            default:
+                System.out.println("Error in Robot.move()!");
+                break;
+        }
+
+        if (isRealRobot) {
+            sendMovement(m, true);
+        }
+    }
 
     /**
      * Overloaded method that calls this.move(MOVEMENT m, boolean sendMoveToAndroid = true).
@@ -213,4 +280,6 @@ public class ExploreController {
         move(RobotConstants.MOVEMENT.LEFT);
         
     }
+
+
 }

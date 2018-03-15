@@ -222,8 +222,9 @@ public class FastestPathAlgo {
                 System.out.print("Goal Visited , Path Found");
                 path = getPath(goalRow, goalCol);
                 printFastestPath(path);
-                QueuetoString(executeString(robot, path));
-                executePath(robot, path);
+                String command = QueuetoString(executeString(robot, path));
+                //executePath(robot, path);
+                executePath(command);
                 return null;
             }
 
@@ -375,31 +376,53 @@ public class FastestPathAlgo {
         return actualPath;
     }
 
-    public void executePath(Robot robot, Stack<Grid> path) {
-        boolean initial = true;
-        Grid temp = path.pop();
-        //printFastestPath(path);
-        //while (FastestMode) {
-            while (temp != null) {
-                rotateToFace(temp);
-                if(initial) {
-                    initial = false; 
-                }
-                else {
-//                    rotateToFace(temp);
-                    scheduleMovement(MOVEMENT.FORWARD);
-                    //schedule(this::moveForward);
-                }
-                
-                if(path.size() > 0)
-                    temp = path.pop();
-                else 
-                    temp = null;
+//    public void executePath(Robot robot, Stack<Grid> path) {
+//        boolean initial = true;
+//        Grid temp = path.pop();
+//        //printFastestPath(path);
+//        //while (FastestMode) {
+//            while (temp != null) {
+//                rotateToFace(temp);
+//                if(initial) {
+//                    initial = false; 
+//                }
+//                else {
+////                    rotateToFace(temp);
+//                    scheduleMovement(MOVEMENT.FORWARD);
+//                    //schedule(this::moveForward);
+//                }
+//                
+//                if(path.size() > 0)
+//                    temp = path.pop();
+//                else 
+//                    temp = null;
+//            }
+////            rotateToFace(temp);
+////            schedule(this::moveForward);
+////            break;
+////        }
+//    }
+    
+    public void executePath(String command) {
+        //String movement_command = new String();
+        String movement_command = command.replaceAll("W", "FORWARD_THREE,").replaceAll("q", "FORWARD_FIVE,").replaceAll("w", "FORWARD,").replaceAll("d", "RIGHT,").replaceAll("a", "LEFT,");
+        movement_command = movement_command.substring(0,movement_command.length() - 1);
+        
+        String[] commandArr = movement_command.split(",");
+        
+        for(int i = 0; i < commandArr.length; i++){
+            if(robot.getIsRealRobot()){
+                    MOVEMENT moveEnum = MOVEMENT.valueOf(commandArr[i]);
+                    ec.updateFp(moveEnum);
+                    panel.repaint();
             }
-//            rotateToFace(temp);
-//            schedule(this::moveForward);
-//            break;
-//        }
+                
+             else{
+                MOVEMENT moveEnum = MOVEMENT.valueOf(commandArr[i]);
+                ec.updateFp(moveEnum);
+                panel.repaint();
+            }
+        }
     }
     
     private void scheduleMovement(MOVEMENT m){
@@ -641,7 +664,7 @@ public class FastestPathAlgo {
     //    System.out.println(movements);
     }
     
-    public void QueuetoString (Queue<DIRECTION> path ){
+    public String QueuetoString (Queue<DIRECTION> path ){
         DIRECTION from = path.poll();
         DIRECTION next = path.peek();
          while (from != null) {
@@ -663,7 +686,7 @@ public class FastestPathAlgo {
         comm.sendMsg(convert, "INSTR");
         System.out.println(convert);
         System.out.println(movements);
-        
+        return convert;
     }
     
     public void OrientationToString(DIRECTION FROM, DIRECTION TOSET) {
