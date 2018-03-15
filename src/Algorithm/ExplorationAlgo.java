@@ -70,9 +70,12 @@ public class ExplorationAlgo {
         if (robot.getIsRealRobot()) {
             System.out.println("Starting calibration...");
             //exploreController.move(MOVEMENT.CAL_COR, false);
-            CommMgr.getCommMgr().sendMsg("g", "INSTR");
+            CommMgr.getCommMgr().sendMsg("o", "INSTR");
             if(CommMgr.getCommMgr().recvMsg().equals("Y")){
-                exploreController.move(MOVEMENT.LEFT);
+                CommMgr.getCommMgr().sendMsg("g", "INSTR");
+                if(CommMgr.getCommMgr().recvMsg().equals("Y")){
+                    exploreController.move(MOVEMENT.LEFT);
+                }
             }
         }
 
@@ -124,15 +127,15 @@ public class ExplorationAlgo {
         System.out.println("Area explored: " + areaExplored);
 
         // Check for termination condition
-        if(areaExplored == 300){
-            System.out.println("Finished exploring all grids");
-            goHome();
-            return;
-        }
+//        if(areaExplored == 300){
+//            System.out.println("Finished exploring all grids");
+//            //goHome();
+//            return;
+//        }
 
         if(areaExplored > coverageLimit || System.currentTimeMillis() > endTime ){
             System.out.println("Exceeded time or area");
-            goHome();
+            //goHome();
             return;
         }
 
@@ -430,13 +433,13 @@ public class ExplorationAlgo {
 
         switch (botDir) {
             case NORTH:
-                return exploredMap.getMap().getIsObstacleOrWall(row - 2, col - 1) && exploredMap.getMap().getIsObstacleOrWall(row - 2, col) && exploredMap.getMap().getIsObstacleOrWall(row - 2, col + 1) && exploredMap.getMap().getIsObstacleOrWall(row - 1, col + 2) && exploredMap.getMap().getIsObstacleOrWall(row + 1, col + 2);
+                return exploredMap.getMap().getIsObstacleOrWall(row - 2, col - 1) && exploredMap.getMap().getIsObstacleOrWall(row - 2, col) && exploredMap.getMap().getIsObstacleOrWall(row - 2, col + 1) && exploredMap.getMap().getIsObstacleOrWall(row - 1, col + 2) && exploredMap.getMap().getIsObstacleOrWall(row, col + 2) && exploredMap.getMap().getIsObstacleOrWall(row + 1, col + 2);
             case EAST:
-                return exploredMap.getMap().getIsObstacleOrWall(row - 1, col + 2) && exploredMap.getMap().getIsObstacleOrWall(row, col + 2) && exploredMap.getMap().getIsObstacleOrWall(row + 1, col + 2) && exploredMap.getMap().getIsObstacleOrWall(row + 2, col + 1) && exploredMap.getMap().getIsObstacleOrWall(row + 2, col - 1);
+                return exploredMap.getMap().getIsObstacleOrWall(row - 1, col + 2) && exploredMap.getMap().getIsObstacleOrWall(row, col + 2) && exploredMap.getMap().getIsObstacleOrWall(row + 1, col + 2) && exploredMap.getMap().getIsObstacleOrWall(row + 2, col + 1) && exploredMap.getMap().getIsObstacleOrWall(row + 2, col)&& exploredMap.getMap().getIsObstacleOrWall(row + 2, col - 1);
             case SOUTH:
-                return exploredMap.getMap().getIsObstacleOrWall(row + 2, col + 1) && exploredMap.getMap().getIsObstacleOrWall(row + 2, col) && exploredMap.getMap().getIsObstacleOrWall(row + 2, col - 1) && exploredMap.getMap().getIsObstacleOrWall(row + 1, col - 2) && exploredMap.getMap().getIsObstacleOrWall(row - 1, col - 2);
+                return exploredMap.getMap().getIsObstacleOrWall(row + 2, col + 1) && exploredMap.getMap().getIsObstacleOrWall(row + 2, col) && exploredMap.getMap().getIsObstacleOrWall(row + 2, col - 1) && exploredMap.getMap().getIsObstacleOrWall(row + 1, col - 2) && exploredMap.getMap().getIsObstacleOrWall(row, col - 2) && exploredMap.getMap().getIsObstacleOrWall(row - 1, col - 2);
             case WEST:
-                return exploredMap.getMap().getIsObstacleOrWall(row + 1, col - 2) && exploredMap.getMap().getIsObstacleOrWall(row, col - 2) && exploredMap.getMap().getIsObstacleOrWall(row - 1, col - 2) && exploredMap.getMap().getIsObstacleOrWall(row - 2, col - 1) && exploredMap.getMap().getIsObstacleOrWall(row - 2, col + 1);
+                return exploredMap.getMap().getIsObstacleOrWall(row + 1, col - 2) && exploredMap.getMap().getIsObstacleOrWall(row, col - 2) && exploredMap.getMap().getIsObstacleOrWall(row - 1, col - 2) && exploredMap.getMap().getIsObstacleOrWall(row - 2, col - 1) && exploredMap.getMap().getIsObstacleOrWall(row - 2, col) && exploredMap.getMap().getIsObstacleOrWall(row - 2, col + 1);
         }
         System.out.println("Cannot calibrate on corner");
         return false;

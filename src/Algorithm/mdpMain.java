@@ -48,7 +48,8 @@ public class mdpMain {
     public static void main(String[] args) {
         if(realRun){
             comm.openConnection();
-            //comm.sendMsg("a", "INSTR");
+//            comm.sendMsg("o", "INSTR");
+//            comm.recvMsg();
         }
         
         robot = new Robot(MapConstants.START_ROW, MapConstants.START_COL, realRun);
@@ -68,12 +69,26 @@ public class mdpMain {
             }
         }
         
+        
+               
+        if(robot.getIsRealRobot()){
+            while (true) {
+                System.out.println("Waiting for android command to set waypoint...");
+                String msg = CommMgr.getCommMgr().recvMsg();
+                String[] msgArr = msg.split(",");
+                int r = Integer.parseInt(msgArr[0]);
+                int c = Integer.parseInt(msgArr[1]);
+                exploredMap.getGrid(r, c).setIsWayPoint(true);           
+            }
+        }
+        
+        
         if(robot.getIsRealRobot()){
             while (true) {
                 System.out.println("Waiting for android command to start fastest path...");
                 String msg = CommMgr.getCommMgr().recvMsg();
                 if (msg.equals(CommMgr.FP_START)){
-                    m_control.initExploration();
+                    m_control.initFastestPath();
                 }
             }
         }

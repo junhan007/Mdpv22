@@ -309,7 +309,7 @@ public class Robot {
             String msg = comm.recvMsg();
             String[] msgArr = msg.split(",");
             
-            System.out.println("Receieved sensor readings from arduino: " + msg);
+            //System.out.println("Receieved sensor readings from arduino: " + msg);
             result[0] = Integer.parseInt(msgArr[0]);
             result[1] = Integer.parseInt(msgArr[1]);
             result[2] = Integer.parseInt(msgArr[2]);

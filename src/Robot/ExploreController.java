@@ -194,7 +194,7 @@ public class ExploreController {
      * Uses the current direction of the robot and the given movement to find the new direction of the robot.
      */
     private RobotConstants.DIRECTION findNewDirection(RobotConstants.MOVEMENT m) {
-        System.out.println("findNewDirection() : " + robot.findNewDirection(m));
+        //System.out.println("findNewDirection() : " + robot.findNewDirection(m));
         return robot.findNewDirection(m);
     }
 

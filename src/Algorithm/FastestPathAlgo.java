@@ -598,7 +598,7 @@ public class FastestPathAlgo {
         Grid next = pathForString.peek();
         DIRECTION fakerobotDir = DEFAULT_START_DIR;
         Queue<DIRECTION> StringPath = new LinkedList<>();
-        StringPath.offer(DEFAULT_START_DIR);
+        StringPath.offer(robot.getRobotDir());
 
         while (temp != null) {
 //            System.out.println("temp Col " + temp.getCol());

@@ -81,7 +81,7 @@ public class Sensor {
             if (!exploredMap.checkValidCoordinates(row, col)) return i;
 
             exploredMap.getGrid(row, col).setIsExplored(true);
-            System.out.println("set grid is explored - row: " + row + ", col: " + col);
+            //System.out.println("set grid is explored - row: " + row + ", col: " + col);
 
             if (realMap.getGrid(row, col).getIsObstacle()) {
                 exploredMap.setObstacleCell(row, col, true);

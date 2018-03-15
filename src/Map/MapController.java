@@ -144,37 +144,38 @@ public class MapController implements MouseListener, ActionListener {
 
         }
         if (ae.getSource() == cpanel.getAlgoPanel().getFastestPathButton()) {
-            int row;
-            int col;
-            if (checkWayPointExist()) {
-                this.fpath_control = new FastestPathAlgo(m_robot, mapFrame, m_robot.getRobotPosRow(), m_robot.getRobotPosCol(), m_robot.getRobotDir());
-                for (int x = 0; x < MAP_COLS; x++) {
-                    for (int y = 0; y < MAP_ROWS; y++) {
-                        if (mapPanel.getMap().getGrid(y, x).getIsWayPoint()) {
-                            row = y;
-                            col = x;
-                            Stack<Grid> pathToWaypoint = fpath_control.runFastestPathAtoB(m_robot.getRobotPosRow(), m_robot.getRobotPosCol(), row, col);
-
-                            Stack<DIRECTION> WaypointStack = fpath_control.executeStringStack(m_robot, pathToWaypoint);
-                            DIRECTION temp = WaypointStack.pop();
-                            
-                            this.fpath_control = new FastestPathAlgo(m_robot, mapFrame, row, col, temp);
-
-                            Stack<Grid> pathToGoal = fpath_control.runFastestPathAtoB(row, col, 1, 13);
-                            pathToGoal.pop();
-                            pathToGoal.addAll(pathToWaypoint);
-                            fpath_control.printFastestPath(pathToGoal);
-                            fpath_control.QueuetoString(fpath_control.executeString(m_robot, pathToGoal));
-                            fpath_control.executePath(m_robot, pathToGoal);
-
-                        }
-                    }
-                }
-
-            } else {
-                this.fpath_control = new FastestPathAlgo(m_robot, mapFrame);
-                fpath_control.runFastestPath(1, 13);
-            }
+            initFastestPath();
+//            int row;
+//            int col;
+//            if (checkWayPointExist()) {
+//                this.fpath_control = new FastestPathAlgo(m_robot, mapFrame, m_robot.getRobotPosRow(), m_robot.getRobotPosCol(), m_robot.getRobotDir());
+//                for (int x = 0; x < MAP_COLS; x++) {
+//                    for (int y = 0; y < MAP_ROWS; y++) {
+//                        if (mapPanel.getMap().getGrid(y, x).getIsWayPoint()) {
+//                            row = y;
+//                            col = x;
+//                            Stack<Grid> pathToWaypoint = fpath_control.runFastestPathAtoB(m_robot.getRobotPosRow(), m_robot.getRobotPosCol(), row, col);
+//
+//                            Stack<DIRECTION> WaypointStack = fpath_control.executeStringStack(m_robot, pathToWaypoint);
+//                            DIRECTION temp = WaypointStack.pop();
+//                            
+//                            this.fpath_control = new FastestPathAlgo(m_robot, mapFrame, row, col, temp);
+//
+//                            Stack<Grid> pathToGoal = fpath_control.runFastestPathAtoB(row, col, 1, 13);
+//                            pathToGoal.pop();
+//                            pathToGoal.addAll(pathToWaypoint);
+//                            fpath_control.printFastestPath(pathToGoal);
+//                            fpath_control.QueuetoString(fpath_control.executeString(m_robot, pathToGoal));
+//                            fpath_control.executePath(m_robot, pathToGoal);
+//
+//                        }
+//                    }
+//                }
+//
+//            } else {
+//                this.fpath_control = new FastestPathAlgo(m_robot, mapFrame);
+//                fpath_control.runFastestPath(1, 13);
+//            }
         }
         if (ae.getSource() == cpanel.getClearMapPanel().getClearButton()) {
             resetMap();
@@ -234,6 +235,40 @@ public class MapController implements MouseListener, ActionListener {
         mapPanel.setMap(exploredMap);
         ExplorationAlgo ex = new ExplorationAlgo(mapFrame, realMap, m_robot, m_robot.getCoverage(), m_robot.getTimeLimit());
         ex.runExploration();
+    }
+    
+    public void initFastestPath(){
+        int row;
+        int col;
+        if (checkWayPointExist()) {
+            this.fpath_control = new FastestPathAlgo(m_robot, mapFrame, m_robot.getRobotPosRow(), m_robot.getRobotPosCol(), m_robot.getRobotDir());
+            for (int x = 0; x < MAP_COLS; x++) {
+                for (int y = 0; y < MAP_ROWS; y++) {
+                    if (mapPanel.getMap().getGrid(y, x).getIsWayPoint()) {
+                        row = y;
+                        col = x;
+                        Stack<Grid> pathToWaypoint = fpath_control.runFastestPathAtoB(m_robot.getRobotPosRow(), m_robot.getRobotPosCol(), row, col);
+
+                        Stack<DIRECTION> WaypointStack = fpath_control.executeStringStack(m_robot, pathToWaypoint);
+                        DIRECTION temp = WaypointStack.pop();
+
+                        this.fpath_control = new FastestPathAlgo(m_robot, mapFrame, row, col, temp);
+
+                        Stack<Grid> pathToGoal = fpath_control.runFastestPathAtoB(row, col, 1, 13);
+                        pathToGoal.pop();
+                        pathToGoal.addAll(pathToWaypoint);
+                        fpath_control.printFastestPath(pathToGoal);
+                        fpath_control.QueuetoString(fpath_control.executeString(m_robot, pathToGoal));
+                        fpath_control.executePath(m_robot, pathToGoal);
+
+                    }
+                }
+            }
+
+        } else {
+            this.fpath_control = new FastestPathAlgo(m_robot, mapFrame);
+            fpath_control.runFastestPath(1, 13);
+        }
     }
     
   
