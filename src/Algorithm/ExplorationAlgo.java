@@ -111,6 +111,7 @@ public class ExplorationAlgo {
                     calCount = 0;
                     //justCalibrated = true;
                     moveBot(MOVEMENT.LEFT);
+                    senseAndRepaint();
                 } else if (canCalibrateUsingSide(robot.getRobotDir()) && calCount >= 3){
                     System.out.println("Can reposition using side");
                     moveBot(MOVEMENT.CAL_SIDE);

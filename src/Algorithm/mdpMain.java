@@ -65,6 +65,7 @@ public class mdpMain {
                 String msg = CommMgr.getCommMgr().recvMsg();
                 if (msg.equals(CommMgr.EX_START)){
                     m_control.initExploration();
+                    break;
                 }
             }
         }
@@ -78,7 +79,9 @@ public class mdpMain {
                 String[] msgArr = msg.split(",");
                 int r = Integer.parseInt(msgArr[0]);
                 int c = Integer.parseInt(msgArr[1]);
-                exploredMap.getGrid(r, c).setIsWayPoint(true);           
+                exploredMap.getGrid(r, c).setIsWayPoint(true);  
+                exploredMap.repaint();
+                break;
             }
         }
         
@@ -89,6 +92,7 @@ public class mdpMain {
                 String msg = CommMgr.getCommMgr().recvMsg();
                 if (msg.equals(CommMgr.FP_START)){
                     m_control.initFastestPath();
+                    break;
                 }
             }
         }
